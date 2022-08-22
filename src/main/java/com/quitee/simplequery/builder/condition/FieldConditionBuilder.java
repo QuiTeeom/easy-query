@@ -1,5 +1,6 @@
 package com.quitee.simplequery.builder.condition;
 
+import com.quitee.simplequery.builder.Query;
 import com.quitee.simplequery.builder.utils.BuilderUtils;
 
 import java.util.Arrays;
@@ -21,32 +22,48 @@ public class FieldConditionBuilder {
         this.fieldNameProvider = fieldNameProvider;
     }
 
-    public Condition eq(Object o){
-        return new FieldCondition(fieldNameProvider.getName(),"=",getValue(o));
+    public GroupConditionBuilder eq(Object o){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),"=",getValue(o)));
     }
 
-    public Condition notEq(Object o){
-        return new FieldCondition(fieldNameProvider.getName(),"!=",getValue(o));
+    public GroupConditionBuilder notEq(Object o){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),"!=",getValue(o)));
     }
 
-    public Condition contains(String o){
-        return new FieldCondition(fieldNameProvider.getName(),"contains",getValue(o));
+    public GroupConditionBuilder contains(String o){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),"contains",getValue(o)));
     }
 
-    public Condition startWith(String o){
-        return new FieldCondition(fieldNameProvider.getName(),"startWith",getValue(o));
+    public GroupConditionBuilder startWith(String o){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),"startWith",getValue(o)));
     }
 
-    public Condition endWith(Object o){
-        return new FieldCondition(fieldNameProvider.getName(),"endWith",getValue(o));
+    public GroupConditionBuilder endWith(Object o){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),"endWith",getValue(o)));
     }
 
-    public Condition in(Collection<?> collections){
-        return new FieldCondition(fieldNameProvider.getName(),"in",getValue(collections));
+    public GroupConditionBuilder in(Collection<?> collections){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),"in",getValue(collections)));
     }
 
-    public Condition in(Object... objects){
-        return in(Arrays.asList(objects));
+    public GroupConditionBuilder in(Object... objects){
+        return Conditions.group(in(Arrays.asList(objects)));
+    }
+
+    public GroupConditionBuilder grateThan(Object o){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),">",getValue(o)));
+    }
+
+    public GroupConditionBuilder grateEqThan(Object o){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),">=",getValue(o)));
+    }
+
+    public GroupConditionBuilder lessThan(Object o){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),"<",getValue(o)));
+    }
+
+    public GroupConditionBuilder lessEqThan(Object o){
+        return Conditions.group(new FieldCondition(fieldNameProvider.getName(),"<=",getValue(o)));
     }
 
     private String getValue(Object o){
@@ -55,7 +72,7 @@ public class FieldConditionBuilder {
 
 
 
-    private static class FieldCondition implements Condition {
+    private static class FieldCondition implements Condition{
         String filedName;
 
         String compare;
