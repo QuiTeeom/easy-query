@@ -42,5 +42,50 @@ startTimeAfter=20220822
     6. 集成mybatis,spring等框架
     7. javascript的条件语句构造器
 
+## 特性
+### 基本语法
+```(<字段> <比较操作> <值>) <组合操作> (<字段> <比较操作> <值>) ... ```
+
+```
+name="quitee" AND age = 28
+name in("quitee","coco")
+(age>=18 AND name contains "q") OR (age between [10,18) AND name match ^quitee)
+```
+
+#### 字段
+
+* 无需引号的情况
+    * 正常由字母,数字,下划线等无关键字: a1,b_2 ...
+* 需要引号的情况
+    * 有空格: "a 1"
+    * 有关键词: "a=1"
+
+#### 比较操作
+* =
+* !=
+* \>
+* <
+* \>=
+* <=
+* in
+* not in
+* contains
+* startWith
+* endWith
+* between
+* match
+
+#### 值类型
+* string
+* number
+* date
+* bool
+
+#### 逻辑组合操作
+* and
+* or
+
+
 ## 快速使用
+ 
 
