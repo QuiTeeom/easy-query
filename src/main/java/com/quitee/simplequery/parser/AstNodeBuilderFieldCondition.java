@@ -33,7 +33,7 @@ public class AstNodeBuilderFieldCondition implements AstNodeBuilder{
     }
 
     @Override
-    public void next(Token token, Stack<Token> tokenStack, Stack<AstNode> nodeStack, QueryLexer lexer,Next next) {
+    public int[] next(Token token, Stack<Token> tokenStack, Stack<AstNode> nodeStack, QueryLexer lexer, Next next) {
         switch (token.getType()){
             case EQ:
             case NOT_EQ:
@@ -55,7 +55,7 @@ public class AstNodeBuilderFieldCondition implements AstNodeBuilder{
                 break;
 
         }
-        next.next(AstBuilder.GROUP_CONDITION);
+        return new int[]{AstBuilder.GROUP_CONDITION};
     }
 
     private AstNode buildSimpleCompareNode(Token operator,Token field,Token value){

@@ -6,8 +6,8 @@ package com.quitee.simplequery.builder.condition;
  */
 
 public enum BasicConditionGroupType implements ConditionGroupType {
-    AND("AND"),
-    OR("OR")
+    AND("and"),
+    OR("or")
     ;
 
     String type;

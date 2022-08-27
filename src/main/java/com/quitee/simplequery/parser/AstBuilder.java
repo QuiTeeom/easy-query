@@ -17,9 +17,6 @@ public class AstBuilder {
             new AstNodeBuilderGroupCondition()
     };
 
-
-
-
     public AstNode build(String query){
         QueryLexer queryLexer = new QueryLexer(query);
         Stack<AstNode> astNodeStack = new Stack<>();
@@ -57,7 +54,11 @@ public class AstBuilder {
                 }
 
                 if (support!=null){
-                    support.next(token,tokenStack,astNodeStack,queryLexer,this);
+                    int[] nextExpects = support.next(token,tokenStack,astNodeStack,queryLexer,this);
+                    if (nextExpects!=null){
+                        next(nextExpects);
+                    }
+                    return;
                 }else {
                     tokenStack.push(token);
                 }

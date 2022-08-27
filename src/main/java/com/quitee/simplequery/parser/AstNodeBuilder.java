@@ -11,7 +11,7 @@ public interface AstNodeBuilder {
 
     boolean support(Token token);
 
-    void next(Token token, Stack<Token> tokenStack, Stack<AstNode> nodeStack, QueryLexer lexer,Next next);
+    int[] next(Token token, Stack<Token> tokenStack, Stack<AstNode> nodeStack, QueryLexer lexer, Next next);
 
     interface Next{
         void next(int... expects);

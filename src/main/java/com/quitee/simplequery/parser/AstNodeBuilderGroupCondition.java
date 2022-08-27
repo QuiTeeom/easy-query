@@ -24,16 +24,14 @@ public class AstNodeBuilderGroupCondition implements AstNodeBuilder{
     FlagParen flagStart = new FlagParen();
     FlagParen flagEnd = new FlagParen();
     @Override
-    public void next(Token token, Stack<Token> tokenStack, Stack<AstNode> nodeStack, QueryLexer lexer,Next next) {
+    public int[] next(Token token, Stack<Token> tokenStack, Stack<AstNode> nodeStack, QueryLexer lexer,Next next) {
         switch (token.getType()){
             case L_PAREN:
                 nodeStack.push(flagStart);
-                next.next(AstBuilder.GROUP_CONDITION,AstBuilder.FIELD_CONDITION);
-                return;
+                return new int[]{AstBuilder.GROUP_CONDITION,AstBuilder.FIELD_CONDITION};
             case R_PAREN:
                 nodeStack.push(flagEnd);
-                next.next(AstBuilder.GROUP_CONDITION);
-                return;
+                return null;
             case AND:
             case OR:
                 AstNode c1 = nodeStack.pop();
@@ -48,8 +46,8 @@ public class AstNodeBuilderGroupCondition implements AstNodeBuilder{
                 AstNodeGroupCondition condition = new AstNodeGroupCondition(c1,token,c2);
                 condition.setParen(paren);
                 nodeStack.push(condition);
-                return;
         }
+        return new int[]{AstBuilder.GROUP_CONDITION};
     }
 
     private static class FlagParen implements AstNode{
