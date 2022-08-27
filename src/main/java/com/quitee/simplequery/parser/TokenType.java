@@ -7,6 +7,10 @@ package com.quitee.simplequery.parser;
 public enum TokenType {
     L_PAREN,
     R_PAREN,
+    L_BECKET,
+    R_BECKET,
+
+    COMMA,
 
     EQ,
     NOT_EQ,
@@ -26,16 +30,9 @@ public enum TokenType {
     AND,
     OR,
 
-
-
-
     TEXT,
     NUMBER,
     OPERATOR,
     GROUP,
-
-
-
-
 
 }

@@ -1,6 +1,7 @@
 package com.quitee.simplequery.builder.condition;
 
 import com.quitee.simplequery.builder.Query;
+import com.quitee.simplequery.builder.condition.valueconverter.Converters;
 import com.quitee.simplequery.builder.utils.BuilderUtils;
 
 import java.util.Arrays;
@@ -67,7 +68,7 @@ public class FieldConditionBuilder {
     }
 
     private String getValue(Object o){
-        return o.toString();
+        return Converters.get(o.getClass()).convert(o);
     }
 
 

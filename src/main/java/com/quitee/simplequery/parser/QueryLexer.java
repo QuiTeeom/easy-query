@@ -52,18 +52,19 @@ public class QueryLexer {
                 case '<': scanCompare();break;
                 case '(': tokenStart = pos - 1;tokenEnd=tokenStart;tokenType = TokenType.L_PAREN;break;
                 case ')': tokenStart = pos - 1;tokenEnd=tokenStart;tokenType = TokenType.R_PAREN;break;
+                case '[': tokenStart = pos - 1;tokenEnd=tokenStart;tokenType = TokenType.L_BECKET;break;
+                case ']': tokenStart = pos - 1;tokenEnd=tokenStart;tokenType = TokenType.R_BECKET;break;
+                case ',': tokenStart = pos - 1;tokenEnd=tokenStart;tokenType = TokenType.COMMA;break;
                 case ' ': break;
                 case 0x1A: return null;
                 default:
+                    if ((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z')){
+                        scanWord();
+                    }else if (ch>='0'&&ch<='9'){
+                        scanNumber();
+                    }
             }
 
-            if ((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z')){
-                scanWord();
-            }
-
-            if (ch>='0'&&ch<='9'){
-                scanNumber();
-            }
 
             if (tokenType!=null){
                 return new Token(new Literal(new String(bc,tokenStart,tokenEnd+1-tokenStart),tokenStart,tokenEnd),tokenType);
@@ -89,6 +90,9 @@ public class QueryLexer {
                 case '<':
                 case '(':
                 case ')':
+                case '[':
+                case ']':
+                case ',':
                     pre();tokenEnd=pos-1;
                     if (!allNumber){
                         tokenType = TokenType.TEXT;
@@ -133,6 +137,9 @@ public class QueryLexer {
                 case '<':
                 case '(':
                 case ')':
+                case '[':
+                case ']':
+                case ',':
                     pre();
                     tokenEnd=pos-1;
                     if (keyWordTree==null||keyWordTree.getTokenType()==null){
@@ -217,11 +224,16 @@ public class QueryLexer {
     }
 
     private void next() {
+        if (ch == 0x1A){
+            return;
+        }
         try {
-            ch = str.charAt(pos++);
+            ch = str.charAt(pos);
         }catch (StringIndexOutOfBoundsException e){
             ch = 0x1A;
+            return;
         }
+        pos++;
     }
 
     private void pre() {
