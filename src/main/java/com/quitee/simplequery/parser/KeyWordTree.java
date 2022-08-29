@@ -1,11 +1,17 @@
 package com.quitee.simplequery.parser;
 
+import com.quitee.simplequery.ast.TokenType;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author guhui
  * @date 2022/8/26
  */
 public class KeyWordTree {
-    KeyWordTree[] slots = new KeyWordTree[127];
+
+    Map<Character,KeyWordTree> slots = new HashMap<>(1<<8);
 
     String word = null;
     TokenType tokenType;
@@ -24,14 +30,14 @@ public class KeyWordTree {
     }
 
     public KeyWordTree next(char ch){
-        return slots[ch];
+        return slots.get(ch);
     }
 
     private void add(char[] chars,int pos,TokenType tokenType){
-        KeyWordTree slot = slots[chars[pos]];
+        KeyWordTree slot = slots.get(chars[pos]);
         if (slot==null){
             slot = new KeyWordTree(chars[pos]);
-            slots[chars[pos]] = slot;
+            slots.put(chars[pos],slot);
         }
         pos++;
         if (pos<chars.length){

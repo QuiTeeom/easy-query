@@ -1,5 +1,9 @@
 package com.quitee.simplequery.parser;
 
+import com.quitee.simplequery.ast.Literal;
+import com.quitee.simplequery.ast.Token;
+import com.quitee.simplequery.ast.TokenType;
+
 /**
  * @author guhui
  * @date 2022/8/26
@@ -17,9 +21,12 @@ public class QueryLexer {
 
     char ch;
 
-    static KeyWordTree KEY_WORDS = new KeyWordTree();
-    static {
-        KEY_WORDS.add("in",TokenType.IN)
+    KeyWordTree keyWordTree;
+
+    static KeyWordTree KEY_WORDS = defaultKeyWordTree();
+
+    private static KeyWordTree defaultKeyWordTree(){
+        return new KeyWordTree().add("in",TokenType.IN)
                 .add("not in",TokenType.NOT_IN)
                 .add("contains",TokenType.CONTAINS)
                 .add("startWith",TokenType.START_WITH)
@@ -36,6 +43,19 @@ public class QueryLexer {
         this.str = str;
         max = str.length();
         bc = this.str.toCharArray();
+        keyWordTree = KEY_WORDS;
+    }
+
+    public QueryLexer(String str,QueryLexerConfig config) {
+        this.str = str;
+        max = str.length();
+        bc = this.str.toCharArray();
+        if (config.getAlias()!=null){
+            keyWordTree = defaultKeyWordTree();
+            config.getAlias().forEach((t,ty)->{
+                keyWordTree.add(t,ty);
+            });
+        }
     }
 
     public Token nextToken() {
@@ -58,10 +78,10 @@ public class QueryLexer {
                 case ' ': break;
                 case 0x1A: return null;
                 default:
-                    if ((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z')){
-                        scanWord();
-                    }else if (ch>='0'&&ch<='9'){
+                    if (ch>='0'&&ch<='9'){
                         scanNumber();
+                    }else {
+                        scanWord();
                     }
             }
 
@@ -125,7 +145,7 @@ public class QueryLexer {
 
     private void scanWord(){
         tokenStart = pos - 1;
-        KeyWordTree keyWordTree = KEY_WORDS.next(ch);
+        KeyWordTree keyWordTree = this.keyWordTree.next(ch);
 
         for (;;){
             next();
@@ -149,6 +169,13 @@ public class QueryLexer {
                     }
                     return;
                 case ' ':
+                    if (keyWordTree!=null){
+                        KeyWordTree test = keyWordTree.next(ch);
+                        if (test!=null){
+                            keyWordTree = test;
+                            continue;
+                        }
+                    }
                 case 0x1A:
                     tokenEnd = pos-2;
                     if (keyWordTree==null||keyWordTree.getTokenType()==null){
