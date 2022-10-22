@@ -1,8 +1,6 @@
 package com.quitee.easyquery.parser;
 
-import com.quitee.easyquery.ast.AstNode;
-import com.quitee.easyquery.ast.AstNodeGroupCondition;
-import com.quitee.easyquery.ast.Token;
+import com.quitee.easyquery.ast.*;
 
 import java.util.Stack;
 
@@ -38,7 +36,7 @@ public class AstNodeBuilderGroupCondition implements AstNodeBuilder{
                 if (c==flagEnd){
                     c = nodeStack.pop();
                 }else {
-                    throw new RuntimeException("expect token )");
+                    throw new MissionParenException(token);
                 }
                 if (c instanceof AstNodeGroupCondition){
                     AstNodeGroupCondition groupCondition = (AstNodeGroupCondition) c;

@@ -32,7 +32,7 @@ public class BuildAndAst {
         System.out.println(JSON.toJSONString(astNode, SerializerFeature.PrettyFormat));
 
 
-        astNode = astBuilder.build("(name = 1 and b = 2 and d = s ) or ( as between ( 10,30 ] )");
+        astNode = astBuilder.build("(name = 1 and b = 2 and d = s ) or ( as in ( 10,30 ))");
         System.out.println(astNode);
 
     }

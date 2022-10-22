@@ -1,10 +1,9 @@
 package com.quitee.easyquery.parser;
 
-import com.quitee.easyquery.ast.AstNode;
-import com.quitee.easyquery.ast.AstNodeBetweenFieldCondition;
-import com.quitee.easyquery.ast.AstNodeCompareFieldCondition;
-import com.quitee.easyquery.ast.Token;
+import com.quitee.easyquery.ast.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -58,10 +57,16 @@ public class AstNodeBuilderFieldCondition implements AstNodeBuilder{
                 AstNode bt = buildBetweenNode(token,tokenStack.pop(),lexer);
                 nodeStack.push(bt);
                 break;
-
+            case IN:
+            case NOT_IN:
+                AstNode in = buildInNode(token,tokenStack.pop(),lexer);
+                nodeStack.push(in);
+                break;
         }
         return new int[]{AstBuilder.GROUP_CONDITION};
     }
+
+
 
     private AstNode buildSimpleCompareNode(Token operator,Token field,Token value){
         return new AstNodeCompareFieldCondition(field,operator,value);
@@ -75,6 +80,25 @@ public class AstNodeBuilderFieldCondition implements AstNodeBuilder{
         Token r = lexer.nextToken();
 
         return new AstNodeBetweenFieldCondition(field,operator,l,f,t,r);
+    }
+
+    private AstNode buildInNode(Token operator,Token field,QueryLexer lexer){
+        Token t = lexer.nextToken();
+        Token l = t;
+        if (t.getType() != TokenType.L_PAREN){
+            throw new UnExceptedTokenException(TokenType.L_PAREN,t);
+        }
+        List<Token> values = new ArrayList<>();
+
+        t = lexer.nextToken();
+        while (t!=null){
+            if (t.getType()==TokenType.R_PAREN){
+                return new AstNodeInFieldCondition(field,operator,values);
+            }
+            values.add(t);
+            t = lexer.nextToken();
+        }
+        throw new MissionParenException(l);
     }
 
 }
