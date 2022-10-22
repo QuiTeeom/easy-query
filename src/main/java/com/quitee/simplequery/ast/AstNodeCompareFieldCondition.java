@@ -1,4 +1,4 @@
-package com.quitee.simplequery.parser;
+package com.quitee.simplequery.ast;
 
 import java.util.Collections;
 
@@ -7,7 +7,7 @@ import java.util.Collections;
  * @date 2022/8/27
  */
 
-public class AstNodeCompareFieldCondition extends AstNodeBaseFieldCondition{
+public class AstNodeCompareFieldCondition extends AstNodeBaseFieldCondition {
     public AstNodeCompareFieldCondition(Token field, Token operator, Token value) {
         super(field, operator, Collections.singletonList(value));
     }

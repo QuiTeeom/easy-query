@@ -1,12 +1,13 @@
 package com.quitee.simplequery.builder.test;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONWriter;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.quitee.simplequery.Edge;
 import com.quitee.simplequery.builder.condition.BasicConditionGroupType;
 import com.quitee.simplequery.builder.condition.Condition;
 import com.quitee.simplequery.builder.condition.Conditions;
 import com.quitee.simplequery.builder.condition.FieldConditionBuilder;
-import com.quitee.simplequery.parser.AstNode;
+import com.quitee.simplequery.ast.AstNode;
 
 /**
  * @author quitee
@@ -23,8 +24,8 @@ public class BuildAndAst {
                 age.eq(20)
         ).or(
                 name.startWith("quitee"),
-                age.lessEqThan(30)
-        ).withType(BasicConditionGroupType.AND);
+                age.between(10, Edge.include,30,Edge.exclude)
+        ).withType(BasicConditionGroupType.OR);
 
         System.out.println(condition.toString());
 
@@ -32,7 +33,7 @@ public class BuildAndAst {
         AstNode astNode = astBuilder.build(condition.toString());
 
         System.out.println(astNode);
-        System.out.println(JSON.toJSONString(astNode, JSONWriter.Feature.PrettyFormat));
+        System.out.println(JSON.toJSONString(astNode, SerializerFeature.PrettyFormat));
 
     }
 }

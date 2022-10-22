@@ -1,5 +1,8 @@
 package com.quitee.simplequery.parser;
 
+import com.quitee.simplequery.ast.AstNode;
+import com.quitee.simplequery.ast.Token;
+
 import java.util.*;
 
 /**
@@ -17,14 +20,20 @@ public class AstBuilder {
             new AstNodeBuilderGroupCondition()
     };
 
+    QueryLexerConfig lexerConfig = new QueryLexerConfig();
+
     public AstNode build(String query){
-        QueryLexer queryLexer = new QueryLexer(query);
+        QueryLexer queryLexer = new QueryLexer(query,lexerConfig);
         Stack<AstNode> astNodeStack = new Stack<>();
 
         N n = new N(queryLexer,astNodeStack);
         n.next(FIELD_CONDITION,GROUP_CONDITION);
 
         return astNodeStack.pop();
+    }
+
+    public QueryLexerConfig getLexerConfig() {
+        return lexerConfig;
     }
 
     private static class N implements AstNodeBuilder.Next{

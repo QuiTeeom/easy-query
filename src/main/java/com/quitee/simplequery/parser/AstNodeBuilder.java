@@ -1,5 +1,8 @@
 package com.quitee.simplequery.parser;
 
+import com.quitee.simplequery.ast.AstNode;
+import com.quitee.simplequery.ast.Token;
+
 import java.util.Stack;
 
 /**

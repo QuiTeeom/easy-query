@@ -1,4 +1,4 @@
-package com.quitee.simplequery.parser;
+package com.quitee.simplequery.ast;
 
 import java.util.Arrays;
 
@@ -7,9 +7,9 @@ import java.util.Arrays;
  * @date 2022/8/27
  */
 
-public class AstNodeBetweenFieldCondition extends AstNodeBaseFieldCondition{
+public class AstNodeBetweenFieldCondition extends AstNodeBaseFieldCondition {
 
-    public AstNodeBetweenFieldCondition(Token field, Token operator, Token left,Token from,Token to,Token right) {
+    public AstNodeBetweenFieldCondition(Token field, Token operator, Token left, Token from, Token to, Token right) {
         super(field, operator, Arrays.asList(left,from,to,right));
     }
 

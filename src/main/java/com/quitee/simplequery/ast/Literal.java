@@ -1,4 +1,4 @@
-package com.quitee.simplequery.parser;
+package com.quitee.simplequery.ast;
 
 /**
  * @author guhui
