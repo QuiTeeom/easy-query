@@ -25,4 +25,9 @@ public class AstNodeField implements AstNode{
     public Token getToken() {
         return token;
     }
+
+    @Override
+    public String toString() {
+        return token.getLiteral().getValue();
+    }
 }

@@ -1,6 +1,7 @@
 package com.quitee.easyquery.ast;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author quitee
@@ -27,5 +28,10 @@ public class AstNodeValues implements AstNode{
 
     public List<Token> getValues() {
         return values;
+    }
+
+    @Override
+    public String toString() {
+        return values.stream().map(Token::getLiteral).map(Literal::getValue).collect(Collectors.joining());
     }
 }

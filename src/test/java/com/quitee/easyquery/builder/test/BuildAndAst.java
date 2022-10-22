@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.quitee.easyquery.ast.AstNode;
 import com.quitee.easyquery.builder.condition.*;
+import com.quitee.easyquery.tracer.AstTraceFilters;
+import com.quitee.easyquery.tracer.AstTracer;
 
 /**
  * @author quitee
@@ -34,6 +36,23 @@ public class BuildAndAst {
 
         astNode = astBuilder.build("(name = 1 and b = 2 and d = s ) or ( as in ( 10,30 ))");
         System.out.println(astNode);
+
+        AstTracer.getInstance().withCallBack(n-> {
+            System.out.println(n);
+            return false;
+        }).LRD(astNode);
+        System.out.println("trace ---------------- FILED_CONDITION_FILTER");
+        AstTracer.getInstance()
+                .withCallBack(AstTraceFilters.FIELD_CONDITION_FILTER,n->{
+                    System.out.println("完整条件："+n);
+                    return false;
+                })
+                .withCallBack(AstTraceFilters.FIELD_CONDITION_FIELD_FILTER,n->{
+                    System.out.println("字段名称："+n);
+                    return false;
+                })
+                .LDR(astNode);
+
 
     }
 }
