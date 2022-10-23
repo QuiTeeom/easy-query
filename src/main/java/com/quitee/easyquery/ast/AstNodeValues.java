@@ -1,6 +1,8 @@
 package com.quitee.easyquery.ast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -26,12 +28,18 @@ public class AstNodeValues implements AstNode{
         return null;
     }
 
+    Map<String,Object> attributes = new HashMap<>();
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
     public List<Token> getValues() {
         return values;
     }
 
     @Override
     public String toString() {
-        return values.stream().map(Token::getLiteral).map(Literal::getValue).collect(Collectors.joining());
+        return values.stream().map(Token::getLiteral).map(Literal::getValue).collect(Collectors.joining(","));
     }
 }

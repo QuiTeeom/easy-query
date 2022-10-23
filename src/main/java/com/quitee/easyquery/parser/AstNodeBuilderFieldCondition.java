@@ -94,8 +94,9 @@ public class AstNodeBuilderFieldCondition implements AstNodeBuilder{
         while (t!=null){
             if (t.getType()==TokenType.R_PAREN){
                 return new AstNodeInFieldCondition(field,operator,values);
+            }else if (t.getType()!= TokenType.COMMA){
+                values.add(t);
             }
-            values.add(t);
             t = lexer.nextToken();
         }
         throw new MissionParenException(l);

@@ -2,6 +2,7 @@ package com.quitee.easyquery.parser;
 
 import com.quitee.easyquery.ast.*;
 
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -83,6 +84,11 @@ public class AstNodeBuilderGroupCondition implements AstNodeBuilder{
 
         @Override
         public AstNode getRight() {
+            return null;
+        }
+
+        @Override
+        public Map<String, Object> getAttributes() {
             return null;
         }
     }

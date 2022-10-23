@@ -1,5 +1,8 @@
 package com.quitee.easyquery.tracer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author quitee
  * @date 2022/10/22
@@ -7,4 +10,10 @@ package com.quitee.easyquery.tracer;
 
 public class AstTraceContext {
     boolean stop =false;
+
+    Map<String,Object> attributes = new HashMap<>();
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
 }

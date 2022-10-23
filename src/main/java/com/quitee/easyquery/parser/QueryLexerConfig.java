@@ -21,6 +21,11 @@ public class QueryLexerConfig {
         return alias;
     }
 
+    public QueryLexerConfig withAlias(String literal,TokenType tokenType){
+        alias.put(literal,tokenType);
+        return this;
+    }
+
     public static QueryLexerConfig getInstance(){
         return new QueryLexerConfig();
     }

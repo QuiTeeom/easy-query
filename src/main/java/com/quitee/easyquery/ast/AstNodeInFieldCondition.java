@@ -16,11 +16,8 @@ public class AstNodeInFieldCondition extends AstNodeBaseFieldCondition {
 
     @Override
     public String toString() {
-
-
-
         return getField().getLiteral().getValue() + " " + getOperator().getLiteral().getValue() + " ( "+
-                getValues().stream().map(Token::getLiteral).map(Literal::getValue).collect(Collectors.joining())
+                getValues().stream().map(Token::getLiteral).map(Literal::getValue).collect(Collectors.joining(","))
                 +" ) ";
     }
 }

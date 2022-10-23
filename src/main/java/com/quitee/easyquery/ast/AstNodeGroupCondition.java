@@ -1,5 +1,8 @@
 package com.quitee.easyquery.ast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author quitee
  * @date 2022/8/27
@@ -48,5 +51,11 @@ public class AstNodeGroupCondition implements AstNode {
     @Override
     public AstNode getRight() {
         return right;
+    }
+
+    Map<String,Object> attributes = new HashMap<>();
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 }

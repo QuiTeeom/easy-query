@@ -3,8 +3,9 @@ package com.quitee.easyquery.builder.test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.quitee.easyquery.ast.AstNode;
+import com.quitee.easyquery.ast.TokenType;
 import com.quitee.easyquery.builder.condition.*;
-import com.quitee.easyquery.tracer.AstTraceFilters;
+import com.quitee.easyquery.codec.mysql.MysqlParser;
 import com.quitee.easyquery.tracer.AstTracer;
 
 /**
@@ -42,17 +43,15 @@ public class BuildAndAst {
             return false;
         }).LRD(astNode);
         System.out.println("trace ---------------- FILED_CONDITION_FILTER");
-        AstTracer.getInstance()
-                .withCallBack(AstTraceFilters.FIELD_CONDITION_FILTER,n->{
-                    System.out.println("完整条件："+n);
-                    return false;
-                })
-                .withCallBack(AstTraceFilters.FIELD_CONDITION_FIELD_FILTER,n->{
-                    System.out.println("字段名称："+n);
-                    return false;
-                })
-                .LDR(astNode);
 
+        astBuilder.getLexerConfig()
+                .withAlias("等于", TokenType.EQ)
+                .withAlias("处于", TokenType.IN)
+                .withAlias("不等于", TokenType.NOT_EQ);
+        astNode = astBuilder.build("(name 等于 1 and b 不等于 2 and d = s ) or ( as in ( 10,30 ))");
 
+        MysqlParser parser = new MysqlParser();
+        String s = parser.parser(astNode);
+        System.out.println(s);
     }
 }

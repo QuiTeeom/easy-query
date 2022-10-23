@@ -1,6 +1,8 @@
 package com.quitee.easyquery.ast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author quitee
@@ -11,6 +13,8 @@ public class AstNodeBaseFieldCondition implements AstNode {
     AstNodeField field;
     Token operator;
     AstNodeValues values;
+
+    Map<String,Object> attributes = new HashMap<>();
 
     public AstNodeBaseFieldCondition(Token field, Token operator, List<Token> values) {
         this.field = new AstNodeField(field);
@@ -38,5 +42,10 @@ public class AstNodeBaseFieldCondition implements AstNode {
     @Override
     public AstNode getRight() {
         return values;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 }

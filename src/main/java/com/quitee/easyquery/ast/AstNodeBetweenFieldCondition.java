@@ -8,9 +8,33 @@ import java.util.Arrays;
  */
 
 public class AstNodeBetweenFieldCondition extends AstNodeBaseFieldCondition {
+    Object from;
+    Object to;
+    boolean fromInclude;
+    boolean toInclude;
 
     public AstNodeBetweenFieldCondition(Token field, Token operator, Token left, Token from, Token to, Token right) {
         super(field, operator, Arrays.asList(left,from,to,right));
+        this.from = from.getLiteral().toString();
+        this.to = to.getLiteral().toString();
+        this.fromInclude = left.getType() != TokenType.L_PAREN;
+        this.toInclude = right.getType() != TokenType.L_PAREN;
+    }
+
+    public Object getFrom() {
+        return from;
+    }
+
+    public Object getTo() {
+        return to;
+    }
+
+    public boolean isFromInclude() {
+        return fromInclude;
+    }
+
+    public boolean isToInclude() {
+        return toInclude;
     }
 
     @Override

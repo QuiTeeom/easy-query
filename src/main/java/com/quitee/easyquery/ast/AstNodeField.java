@@ -1,5 +1,8 @@
 package com.quitee.easyquery.ast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author quitee
  * @date 2022/10/22
@@ -20,6 +23,12 @@ public class AstNodeField implements AstNode{
     @Override
     public AstNode getRight() {
         return null;
+    }
+
+    Map<String,Object> attributes = new HashMap<>();
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
     public Token getToken() {

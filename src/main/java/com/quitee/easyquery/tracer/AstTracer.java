@@ -43,7 +43,7 @@ public class AstTracer {
     }
 
 
-    private void VLR(AstNode root,AstTraceContext ctx){
+    public void VLR(AstNode root,AstTraceContext ctx){
         if (root==null){
             return;
         }
@@ -70,7 +70,7 @@ public class AstTracer {
         VLR(root,new AstTraceContext());
     }
 
-    private void LDR(AstNode root,AstTraceContext ctx){
+    public void LDR(AstNode root,AstTraceContext ctx){
         if (root==null){
             return;
         }
@@ -99,7 +99,7 @@ public class AstTracer {
         LDR(root,new AstTraceContext());
     }
 
-    private void LRD(AstNode root,AstTraceContext ctx){
+    public void LRD(AstNode root,AstTraceContext ctx){
         if (root==null){
             return;
         }
