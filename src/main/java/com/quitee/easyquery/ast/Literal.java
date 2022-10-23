@@ -1,7 +1,7 @@
 package com.quitee.easyquery.ast;
 
 /**
- * @author guhui
+ * @author quitee
  * @date 2022/8/25
  */
 public class Literal {
