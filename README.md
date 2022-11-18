@@ -87,5 +87,27 @@ name in("quitee","coco")
 
 
 ## 快速使用
+
+### 1. 同构ql语句转成sql语句
+你直接写表达语句来生成sql
+```java
+String sql = new MysqlParser().parseQl("name = quitee or name = guhui");
+// `name` = 'quitee' OR `name` = 'guhui'
+```
+你可以自定义表达式关键词
+```java
+AstBuilder astBuilder = new AstBuilder();
+astBuilder.getLexerConfig()
+        .withAlias("等于", TokenType.EQ)
+        .withAlias("处于", TokenType.IN)
+        .withAlias("不等于", TokenType.NOT_EQ);
+AstNode astNode = astBuilder.build("(name 等于 quitee and age 不等于 20 ) or ( name 处于 ( 10,30 ))");
+
+MysqlParser parser = new MysqlParser();
+String sql = parser.parseAst(astNode);
+System.out.println(sql);
+// (`name` = 'quitee' AND `age` != '20') OR `name` IN (10,30)
+```
+
  
 
