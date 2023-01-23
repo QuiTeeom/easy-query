@@ -6,7 +6,7 @@ import com.github.quiteeom.easyquery.ast.exception.UnExceptedTokenException;
 import com.github.quiteeom.easyquery.ast.node.AstNodeCompareFieldCondition;
 import com.github.quiteeom.easyquery.ast.node.SimpleAstNodeValue;
 import com.github.quiteeom.easyquery.core.values.ArrayValue;
-import com.github.quiteeom.easyquery.core.values.BoundaryValue;
+import com.github.quiteeom.easyquery.core.values.RangeValue;
 import com.github.quiteeom.easyquery.core.values.Value;
 
 import java.util.ArrayList;
@@ -105,13 +105,13 @@ public class AstNodeBuilderFieldCondition implements AstNodeBuilder{
             throw new SyntaxException("语法错误:to is null");
         }
 
-        BoundaryValue boundaryValue = new BoundaryValue(
-                l.getType()==TokenType.L_PAREN?BoundaryValue.OPEN:BoundaryValue.CLOSE,
+        RangeValue rangeValue = new RangeValue(
+                l.getType()==TokenType.L_PAREN? RangeValue.OPEN: RangeValue.CLOSE,
                 defaultValueConvertor.convert(f),
                 defaultValueConvertor.convert(t),
-                r.getType()==TokenType.R_PAREN? BoundaryValue.OPEN: BoundaryValue.CLOSE
+                r.getType()==TokenType.R_PAREN? RangeValue.OPEN: RangeValue.CLOSE
         );
-        return new AstNodeCompareFieldCondition(field,operator,new SimpleAstNodeValue<>(boundaryValue,l,f,c,t,r));
+        return new AstNodeCompareFieldCondition(field,operator,new SimpleAstNodeValue<>(rangeValue,l,f,c,t,r));
     }
 
     private AstNode buildInNode(Token operator,Token field,QueryLexer lexer){

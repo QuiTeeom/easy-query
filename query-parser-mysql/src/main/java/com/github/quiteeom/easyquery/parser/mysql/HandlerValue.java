@@ -5,8 +5,9 @@ import com.github.quiteeom.easyquery.ast.AstTraceFilters;
 import com.github.quiteeom.easyquery.ast.AstTracer;
 import com.github.quiteeom.easyquery.ast.node.AstNodeValue;
 import com.github.quiteeom.easyquery.core.values.ArrayValue;
-import com.github.quiteeom.easyquery.core.values.BoundaryValue;
+import com.github.quiteeom.easyquery.core.values.RangeValue;
 import com.github.quiteeom.easyquery.core.values.Value;
+import com.github.quiteeom.easyquery.core.values.Values;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -35,24 +36,24 @@ public class HandlerValue implements AstMysqlHandler, Function<AstNode,Boolean> 
 
     private String value2Sql(Value value){
         switch (value.type()){
-            case "datetime":{
+            case Values.TYPE_DATE_TIME:{
                 String sqlStr = "'"+value.toQueryString()+"'";
                 Helper.setSql(value,sqlStr);
                 return sqlStr;
             }
-            case "string":{
+            case Values.TYPE_STRING:{
                 String queryStr = value.toQueryString();
                 String sqlStr = "'"+queryStr.substring(1,queryStr.length()-1)+"'";
                 Helper.setSql(value,sqlStr);
                 return sqlStr;
             }
-            case "number":
-            case "bool":{
+            case Values.TYPE_NUMBER:
+            case Values.TYPE_BOOL:{
                 String sqlStr = value.toQueryString();
                 Helper.setSql(value,sqlStr);
                 return sqlStr;
             }
-            case "array": {
+            case Values.TYPE_ARRAY: {
                 ArrayValue arrayValue = (ArrayValue) value;
                 String arraySqlStr = "("+arrayValue.getValues().stream()
                         .map(this::value2Sql)
@@ -60,10 +61,10 @@ public class HandlerValue implements AstMysqlHandler, Function<AstNode,Boolean> 
                 Helper.setSql(value,arraySqlStr);
                 return arraySqlStr;
             }
-            case "boundary":{
-                BoundaryValue boundaryValue = (BoundaryValue) value;
-                Value from = boundaryValue.getFromValue();
-                Value to = boundaryValue.getToValue();
+            case Values.TYPE_RANGE:{
+                RangeValue rangeValue = (RangeValue) value;
+                Value from = rangeValue.getFromValue();
+                Value to = rangeValue.getToValue();
                 String fromSqlStr = value2Sql(from);
                 String toSqlStr = value2Sql(to);
                 value.getAttributes().put(MYSQL_VALUE_BETWEEN_FROM,fromSqlStr);

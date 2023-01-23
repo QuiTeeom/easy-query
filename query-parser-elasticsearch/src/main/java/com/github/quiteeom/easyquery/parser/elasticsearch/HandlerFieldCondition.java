@@ -5,7 +5,7 @@ import com.github.quiteeom.easyquery.ast.AstTraceFilters;
 import com.github.quiteeom.easyquery.ast.AstTracer;
 import com.github.quiteeom.easyquery.ast.node.AstNodeCompareFieldCondition;
 import com.github.quiteeom.easyquery.ast.node.AstNodeValue;
-import com.github.quiteeom.easyquery.core.values.BoundaryValue;
+import com.github.quiteeom.easyquery.core.values.RangeValue;
 import com.github.quiteeom.easyquery.core.values.Value;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -82,16 +82,16 @@ public class HandlerFieldCondition implements AstEsHandler, Function<AstNode,Boo
             case BETWEEN:{
                 queryBuilder = QueryBuilders.rangeQuery(field);
 
-                BoundaryValue value = (BoundaryValue) nodeValue.getValue();
+                RangeValue value = (RangeValue) nodeValue.getValue();
                 Object from = Helper.get(value.getFromValue());
                 Object to = Helper.get(value.getToValue());
-                if (value.getFromBoundary()== BoundaryValue.Boundary.OPEN){
+                if (value.getFromBoundary()== RangeValue.Boundary.OPEN){
                     ((RangeQueryBuilder)queryBuilder).gt(from);
                 }else {
                     ((RangeQueryBuilder)queryBuilder).gte(from);
                 }
 
-                if (value.getToBoundary()== BoundaryValue.Boundary.OPEN){
+                if (value.getToBoundary()== RangeValue.Boundary.OPEN){
                     ((RangeQueryBuilder)queryBuilder).lt(to);
                 }else {
                     ((RangeQueryBuilder)queryBuilder).lte(to);

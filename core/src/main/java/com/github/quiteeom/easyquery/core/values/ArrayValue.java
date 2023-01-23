@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import static com.github.quiteeom.easyquery.core.values.Values.TYPE_ARRAY;
+
 /**
+ * collection of values
  * @author quitee
  * @date 2022/12/18
  */
 
 public class ArrayValue extends BaseValue<Collection<Value>> {
-
     public ArrayValue(Collection<Value> values) {
         super(values);
         if (raw==null){
@@ -29,6 +31,6 @@ public class ArrayValue extends BaseValue<Collection<Value>> {
 
     @Override
     public String type() {
-        return "array";
+        return TYPE_ARRAY;
     }
 }

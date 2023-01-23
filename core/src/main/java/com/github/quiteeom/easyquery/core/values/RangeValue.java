@@ -3,6 +3,8 @@ package com.github.quiteeom.easyquery.core.values;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.github.quiteeom.easyquery.core.values.Values.TYPE_RANGE;
+
 /**
  * (from,to)
  * [form,to]
@@ -12,7 +14,7 @@ import java.util.List;
  * @date 2022/11/30
  */
 
-public class BoundaryValue extends BaseValue<List<?>> {
+public class RangeValue extends BaseValue<List<?>> {
     Boundary fromBoundary;
     Value fromValue;
 
@@ -21,7 +23,7 @@ public class BoundaryValue extends BaseValue<List<?>> {
 
     final String queryStr;
 
-    public BoundaryValue(Boundary fromBoundary, Value fromValue, Value toValue, Boundary toBoundary) {
+    public RangeValue(Boundary fromBoundary, Value fromValue, Value toValue, Boundary toBoundary) {
         super(Arrays.asList(fromBoundary,fromBoundary,toValue,toBoundary));
         this.fromBoundary = fromBoundary;
         this.fromValue = fromValue;
@@ -41,7 +43,7 @@ public class BoundaryValue extends BaseValue<List<?>> {
 
     @Override
     public String type() {
-        return "boundary";
+        return TYPE_RANGE;
     }
 
     public Boundary getFromBoundary() {

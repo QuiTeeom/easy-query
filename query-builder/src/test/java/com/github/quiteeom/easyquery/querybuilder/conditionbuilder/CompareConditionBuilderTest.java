@@ -1,6 +1,6 @@
 package com.github.quiteeom.easyquery.querybuilder.conditionbuilder;
 
-import com.github.quiteeom.easyquery.core.values.BoundaryValue;
+import com.github.quiteeom.easyquery.core.values.RangeValue;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +17,7 @@ public class CompareConditionBuilderTest {
 
         System.out.println(
                 name.eq("quitee")
-                        .and(age.between(BoundaryValue.OPEN,18,24,BoundaryValue.CLOSE))
+                        .and(age.between(RangeValue.OPEN,18,24, RangeValue.CLOSE))
                         .or(name.contains("guagua").and(age.ltOrEq(18)))
                         .or(createDate.lt(LocalDateTime.now()))
                         .or(createDate.eq(true))

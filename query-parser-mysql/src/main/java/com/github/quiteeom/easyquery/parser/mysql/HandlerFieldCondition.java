@@ -6,8 +6,9 @@ import com.github.quiteeom.easyquery.ast.AstTracer;
 import com.github.quiteeom.easyquery.ast.node.AstNodeCompareFieldCondition;
 import com.github.quiteeom.easyquery.ast.node.AstNodeValue;
 import com.github.quiteeom.easyquery.core.values.ArrayValue;
-import com.github.quiteeom.easyquery.core.values.BoundaryValue;
+import com.github.quiteeom.easyquery.core.values.RangeValue;
 import com.github.quiteeom.easyquery.core.values.Value;
+import com.github.quiteeom.easyquery.core.values.Values;
 
 import java.util.function.Function;
 
@@ -127,10 +128,10 @@ public class HandlerFieldCondition implements AstMysqlHandler, Function<AstNode,
         stringBuilder.append(" ").append(opt)
                 .append(" ");
         switch (value.type()){
-            case "datetime":
-            case "string":
-            case "number":
-            case "bool":
+            case Values.TYPE_DATE_TIME:
+            case Values.TYPE_STRING:
+            case Values.TYPE_NUMBER:
+            case Values.TYPE_BOOL:
                 stringBuilder.append(Helper.getSql(value));
                 break;
             default:
@@ -138,14 +139,14 @@ public class HandlerFieldCondition implements AstMysqlHandler, Function<AstNode,
         }
     }
     private void dealBetween(String field,StringBuilder sql,AstNodeValue<? extends Value> astNodeValue){
-        BoundaryValue value = (BoundaryValue) astNodeValue.getValue();
+        RangeValue value = (RangeValue) astNodeValue.getValue();
 
         String from = field +
-                (value.getFromBoundary() == BoundaryValue.OPEN ? " > " : " >= ") +
+                (value.getFromBoundary() == RangeValue.OPEN ? " > " : " >= ") +
                 value.getAttributes().get(MYSQL_VALUE_BETWEEN_FROM);
 
         String to = field +
-                (value.getToBoundary() == BoundaryValue.OPEN ? " < " : " <= ") +
+                (value.getToBoundary() == RangeValue.OPEN ? " < " : " <= ") +
                 value.getAttributes().get(MYSQL_VALUE_BETWEEN_TO);
 
         sql.append("((").append(from).append(") AND (").append(to).append("))");

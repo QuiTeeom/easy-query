@@ -5,6 +5,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import static com.github.quiteeom.easyquery.core.values.Values.TYPE_DATE_TIME;
+
 /**
  * @author quitee
  * @date 2022/12/18
@@ -20,6 +22,10 @@ public class LocalDateTimeValue extends BaseValue<LocalDateTime>{
         super(LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()));
     }
 
+    public LocalDateTime getDateTime() {
+        return raw;
+    }
+
     @Override
     public String toQueryString() {
         return raw.format(DateTimeFormatter.ISO_DATE_TIME);
@@ -27,6 +33,6 @@ public class LocalDateTimeValue extends BaseValue<LocalDateTime>{
 
     @Override
     public String type() {
-        return "datetime";
+        return TYPE_DATE_TIME;
     }
 }

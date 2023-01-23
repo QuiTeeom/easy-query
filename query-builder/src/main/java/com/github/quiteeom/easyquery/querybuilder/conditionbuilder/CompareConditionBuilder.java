@@ -5,7 +5,7 @@ import com.github.quiteeom.easyquery.core.condition.CompareOpts;
 import com.github.quiteeom.easyquery.core.condition.Condition;
 import com.github.quiteeom.easyquery.core.condition.LogicTypes;
 import com.github.quiteeom.easyquery.core.condition.SimpleCompareCondition;
-import com.github.quiteeom.easyquery.core.values.BoundaryValue;
+import com.github.quiteeom.easyquery.core.values.RangeValue;
 import com.github.quiteeom.easyquery.core.values.Value;
 
 import java.util.Arrays;
@@ -148,11 +148,11 @@ public class CompareConditionBuilder {
      * @param  fromBoundary toEdge, ] or )
      * @return builder
      */
-    public LogicConditionBuilder between(BoundaryValue.Boundary fromBoundary, Object from,  Object to, BoundaryValue.Boundary toBoundary){
+    public LogicConditionBuilder between(RangeValue.Boundary fromBoundary, Object from, Object to, RangeValue.Boundary toBoundary){
         return new LogicConditionBuilder(LogicTypes.AND).withConditions(new SimpleCompareConditionBuilder(
                 targetProvider,
                 CompareOpts.BETWEEN,
-                new BoundaryValue(
+                new RangeValue(
                         fromBoundary,
                         valueConvertor.convert(from),
                         valueConvertor.convert(to),

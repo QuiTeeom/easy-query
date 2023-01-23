@@ -1,20 +1,20 @@
 package com.github.quiteeom.easyquery.core.values;
 
+import static com.github.quiteeom.easyquery.core.values.Values.TYPE_BOOL;
+
 /**
+ * boolean value
+ *
  * @author quitee
  * @date 2022/12/18
  */
 
 public class BoolValue extends BaseValue<Boolean>{
-    private String queryStr;
+    private final String queryStr;
 
-    public BoolValue(Boolean raw) {
+    private BoolValue(Boolean raw) {
         super(raw);
         this.queryStr = raw?"TRUE":"FALSE";
-    }
-
-    public BoolValue(BoolValue value) {
-        this(value.raw);
     }
 
     public boolean isTrue() {
@@ -32,7 +32,7 @@ public class BoolValue extends BaseValue<Boolean>{
 
     @Override
     public String type() {
-        return "bool";
+        return TYPE_BOOL;
     }
 
     public static final BoolValue TRUE = new BoolValue(true);

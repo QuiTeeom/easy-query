@@ -36,9 +36,9 @@ public class DefaultValueConvertor implements CompareValueConvertor{
         }else if (o instanceof Date){
             return new LocalDateTimeValue((Date)o);
         }else if (o instanceof Boolean){
-            return new BoolValue((Boolean)o);
+            return (Boolean)o? BoolValue.TRUE : BoolValue.FALSE;
+        }else {
+            throw new IllegalArgumentException("不能找到对于的值类型:"+o);
         }
-
-        return o::toString;
     }
 }

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Abstract class
+ * holds a raw value
+ *
  * @author quitee
  * @date 2022/12/18
  */

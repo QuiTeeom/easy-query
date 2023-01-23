@@ -6,8 +6,9 @@ import com.github.quiteeom.easyquery.ast.AstTracer;
 import com.github.quiteeom.easyquery.ast.node.AstNodeValue;
 import com.github.quiteeom.easyquery.core.values.ArrayValue;
 import com.github.quiteeom.easyquery.core.values.BaseValue;
-import com.github.quiteeom.easyquery.core.values.BoundaryValue;
+import com.github.quiteeom.easyquery.core.values.RangeValue;
 import com.github.quiteeom.easyquery.core.values.Value;
+import com.github.quiteeom.easyquery.core.values.Values;
 
 import java.util.List;
 import java.util.function.Function;
@@ -38,15 +39,15 @@ public class HandlerValue implements AstEsHandler, Function<AstNode,Boolean> {
 
     private Object value2Sql(Value value){
         switch (value.type()){
-            case "datetime":
-            case "string":
-            case "number":
-            case "bool":{
+            case Values.TYPE_DATE_TIME:
+            case Values.TYPE_STRING:
+            case Values.TYPE_NUMBER:
+            case Values.TYPE_BOOL:{
                 BaseValue<?> baseValue = (BaseValue<?>) value;
                 Helper.set(value,baseValue.getRaw());
                 return baseValue.getRaw();
             }
-            case "array": {
+            case Values.TYPE_ARRAY: {
                 ArrayValue arrayValue = (ArrayValue) value;
                 List<Object> objects = arrayValue.getValues().stream()
                         .map(this::value2Sql)
@@ -54,10 +55,10 @@ public class HandlerValue implements AstEsHandler, Function<AstNode,Boolean> {
                 Helper.set(value,objects);
                 return objects;
             }
-            case "boundary":{
-                BoundaryValue boundaryValue = (BoundaryValue) value;
-                Value from = boundaryValue.getFromValue();
-                Value to = boundaryValue.getToValue();
+            case Values.TYPE_RANGE:{
+                RangeValue rangeValue = (RangeValue) value;
+                Value from = rangeValue.getFromValue();
+                Value to = rangeValue.getToValue();
                 Object fromO = value2Sql(from);
                 Object toO = value2Sql(to);
                 value.getAttributes().put(ES_VALUE_BETWEEN_FROM,fromO);

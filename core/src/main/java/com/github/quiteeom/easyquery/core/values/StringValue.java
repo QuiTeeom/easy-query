@@ -1,6 +1,9 @@
 package com.github.quiteeom.easyquery.core.values;
 
+import static com.github.quiteeom.easyquery.core.values.Values.TYPE_STRING;
+
 /**
+ * just string
  * @author quitee
  * @date 2022/12/18
  */
@@ -15,8 +18,12 @@ public class StringValue extends BaseValue<String>{
         return "\""+raw+"\"";
     }
 
+    public String getString(){
+        return raw;
+    }
+
     @Override
     public String type() {
-        return "string";
+        return TYPE_STRING;
     }
 }
