@@ -1,6 +1,8 @@
 package com.github.quiteeom.easyquery.core.condition;
 
 /**
+ * supported opts
+ *
  * @author quitee
  * @date 2022/11/30
  */
@@ -14,7 +16,9 @@ public enum CompareOpts implements CompareOpt{
     LT("<"),
     LT_EQ("<="),
 
-    IN("IN"),
+    IN("in"),
+
+    NOT_IN("not in"),
 
     CONTAINS("contains"),
     START_WITH("startWith"),

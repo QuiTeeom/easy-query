@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * LogicCondition is a kind of Condition
+ *
+ * group multi conditions with a logic condition with 'AND' or 'OR'
+ *
  * @author quitee
  * @date 2022/11/30
  */

@@ -104,6 +104,24 @@ public class CompareConditionBuilder {
     }
 
     /**
+     * not in
+     * @param objects values
+     * @return builder
+     */
+    public LogicConditionBuilder notIn(Object... objects){
+        return in(Arrays.asList(objects));
+    }
+
+    /**
+     * not in
+     * @param collections values
+     * @return builder
+     */
+    public LogicConditionBuilder notIn(Collection<?> collections){
+        return new LogicConditionBuilder(LogicTypes.AND).withConditions(new SimpleCompareConditionBuilder(targetProvider,CompareOpts.NOT_IN,valueConvertor.convert(collections)));
+    }
+
+    /**
      * in
      * @param objects values
      * @return builder

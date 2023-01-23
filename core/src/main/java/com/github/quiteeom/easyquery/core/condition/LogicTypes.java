@@ -1,6 +1,8 @@
 package com.github.quiteeom.easyquery.core.condition;
 
 /**
+ * supported logic type
+ *
  * @author quitee
  * @date 2022/11/30
  */
