@@ -5,9 +5,6 @@ import com.github.quiteeom.easyquery.ast.AstNode;
 import com.github.quiteeom.easyquery.ast.AstTraceContext;
 import com.github.quiteeom.easyquery.ast.AstTracer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author quitee
  * @date 2022/10/22
@@ -15,7 +12,7 @@ import java.util.List;
 
 public class MysqlParser {
     AstTracer astTracer = AstTracer.getInstance();
-    List<AstMysqlHandler> handlers = new ArrayList<>();
+    AstBuilder astBuilder = new AstBuilder();
     public MysqlParser(){
         addHandlers();
     }
@@ -39,7 +36,6 @@ public class MysqlParser {
     }
 
     public String parseQuery(String query){
-        AstBuilder astBuilder = new AstBuilder();
         AstNode astNode = astBuilder.build(query);
         return parseAst(astNode);
     }
