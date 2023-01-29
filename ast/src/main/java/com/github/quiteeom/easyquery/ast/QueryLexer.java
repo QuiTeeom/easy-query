@@ -37,6 +37,9 @@ public class QueryLexer {
                 .add("TRUE",TokenType.BOOL_TRUE)
                 .add("FALSE",TokenType.BOOL_FALSE)
 
+                .add("NULL",TokenType.NULL)
+                .add("null",TokenType.NULL)
+
                 .add("and",TokenType.AND)
                 .add("or",TokenType.OR)
                 .add("AND",TokenType.AND)

@@ -70,6 +70,9 @@ public class HandlerValue implements AstMysqlHandler, Function<AstNode,Boolean> 
                 value.getAttributes().put(MYSQL_VALUE_BETWEEN_FROM,fromSqlStr);
                 value.getAttributes().put(MYSQL_VALUE_BETWEEN_TO,toSqlStr);
             }
+            case Values.TYPE_NULL:{
+                Helper.setSql(value,"NULL");
+            }
             default:
                 return null;
         }

@@ -50,4 +50,10 @@ public class Values {
         return new StringValue(string);
     }
 
+
+    public static final String TYPE_NULL = "null";
+    public static NullValue ofNull(){
+        return NullValue.INSTANCE;
+    }
+
 }

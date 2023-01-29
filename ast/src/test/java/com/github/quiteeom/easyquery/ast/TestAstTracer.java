@@ -15,10 +15,10 @@ public class TestAstTracer {
             return false;
         });
 
-        astTracer.withCallBack(AstTraceFilters.GROUP_CONDITION,astNode -> {
-            System.out.println("组合条件:"+astNode.toString());
-            return false;
-        });
+//        astTracer.withCallBack(AstTraceFilters.GROUP_CONDITION,astNode -> {
+//            System.out.println("组合条件:"+astNode.toString());
+//            return false;
+//        });
         astTracer.LRD(node);
     }
 }

@@ -34,5 +34,6 @@ public enum TokenType {
     TEXT,
     BOOL_TRUE,
     BOOL_FALSE,
+    NULL
 
 }

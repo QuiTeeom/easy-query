@@ -6,6 +6,7 @@ import com.github.quiteeom.easyquery.ast.AstTracer;
 import com.github.quiteeom.easyquery.ast.node.AstNodeCompareFieldCondition;
 import com.github.quiteeom.easyquery.ast.node.AstNodeValue;
 import com.github.quiteeom.easyquery.core.values.ArrayValue;
+import com.github.quiteeom.easyquery.core.values.NullValue;
 import com.github.quiteeom.easyquery.core.values.RangeValue;
 import com.github.quiteeom.easyquery.core.values.Value;
 import com.github.quiteeom.easyquery.core.values.Values;
@@ -48,10 +49,18 @@ public class HandlerFieldCondition implements AstMysqlHandler, Function<AstNode,
 
         switch (n.getOperator().getType()){
             case EQ:
-                dealDefaultOpt(sql,"=",nodeValue);
+                if (nodeValue.getValue() == NullValue.INSTANCE){
+                    dealDefaultOpt(sql,"IS",nodeValue);
+                }else {
+                    dealDefaultOpt(sql,"=",nodeValue);
+                }
                 break;
             case NOT_EQ:
-                dealDefaultOpt(sql,"!=",nodeValue);
+                if (nodeValue.getValue() == NullValue.INSTANCE){
+                    dealDefaultOpt(sql,"IS NOT",nodeValue);
+                }else {
+                    dealDefaultOpt(sql, "!=", nodeValue);
+                }
                 break;
             case GT:
                 dealDefaultOpt(sql,">",nodeValue);
@@ -132,6 +141,7 @@ public class HandlerFieldCondition implements AstMysqlHandler, Function<AstNode,
             case Values.TYPE_STRING:
             case Values.TYPE_NUMBER:
             case Values.TYPE_BOOL:
+            case Values.TYPE_NULL:
                 stringBuilder.append(Helper.getSql(value));
                 break;
             default:
@@ -151,7 +161,6 @@ public class HandlerFieldCondition implements AstMysqlHandler, Function<AstNode,
 
         sql.append("((").append(from).append(") AND (").append(to).append("))");
     }
-
     private void dealIn(StringBuilder sql, AstNodeValue<? extends Value> astNodeValue,boolean notIn){
         ArrayValue value = (ArrayValue) astNodeValue.getValue();
 

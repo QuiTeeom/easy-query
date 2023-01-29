@@ -3,6 +3,7 @@ package com.github.quiteeom.easyquery.ast;
 
 import com.github.quiteeom.easyquery.core.values.BoolValue;
 import com.github.quiteeom.easyquery.core.values.LocalDateTimeValue;
+import com.github.quiteeom.easyquery.core.values.NullValue;
 import com.github.quiteeom.easyquery.core.values.NumberValue;
 import com.github.quiteeom.easyquery.core.values.StringValue;
 import com.github.quiteeom.easyquery.core.values.Value;
@@ -45,6 +46,9 @@ public class DefaultValueConvertor {
                 }catch (Exception e){
                     // ignore
                 }
+            case NULL:{
+                return NullValue.INSTANCE;
+            }
             default:
                 throw new RuntimeException("unknown type:"+token);
         }
