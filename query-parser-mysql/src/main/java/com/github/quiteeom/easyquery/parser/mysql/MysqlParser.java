@@ -11,10 +11,16 @@ import com.github.quiteeom.easyquery.ast.AstTracer;
  */
 
 public class MysqlParser {
-    AstTracer astTracer = AstTracer.getInstance();
-    AstBuilder astBuilder = new AstBuilder();
-    public MysqlParser(){
+    private final AstTracer astTracer;
+    private final AstBuilder astBuilder;
+    public MysqlParser(AstBuilder astBuilder,AstTracer astTracer){
+        this.astBuilder = astBuilder;
+        this.astTracer = astTracer;
         addHandlers();
+    }
+
+    public MysqlParser(){
+        this(new AstBuilder(), AstTracer.getInstance());
     }
 
     private void addHandlers(){

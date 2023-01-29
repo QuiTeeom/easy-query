@@ -17,12 +17,13 @@ public class TestAstBuilder {
 
 
         astBuilder = new AstBuilder();
-        astBuilder.getLexerConfig().getAlias().put("是",TokenType.EQ);
-        astBuilder.getLexerConfig().getAlias().put("不是",TokenType.NOT_EQ);
-        astBuilder.getLexerConfig().getAlias().put("小于",TokenType.LT);
+        astBuilder.getConfig().getLexerConfig()
+                .withAlias("是",TokenType.EQ)
+                .withAlias("不是",TokenType.NOT_EQ)
+                .withAlias("小于",TokenType.LT)
 
-        astBuilder.getLexerConfig().getAlias().put("或",TokenType.OR);
-        astBuilder.getLexerConfig().getAlias().put("且",TokenType.AND);
+                .withAlias("或",TokenType.OR)
+                .withAlias("且",TokenType.AND);
 
         AstNode root = astBuilder.build("name 是 \"quitee\" 且 age 小于 18");
         System.out.println(root);

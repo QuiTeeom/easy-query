@@ -17,27 +17,37 @@ public class AstBuilder {
             new AstNodeBuilderGroupCondition()
     };
 
-    QueryLexerConfig lexerConfig = QueryLexerConfig.getInstance();
+    private final AstBuilderConfig config;
+
+    public AstBuilder(AstBuilderConfig config) {
+        this.config = config;
+    }
+
+    public AstBuilder() {
+        this.config = new AstBuilderConfig();
+    }
 
     public AstNode build(String query){
-        QueryLexer queryLexer = new QueryLexer(query,lexerConfig);
+        QueryLexer queryLexer = new QueryLexer(query,config.getLexerConfig());
         Stack<AstNode> astNodeStack = new Stack<>();
 
-        N n = new N(queryLexer,astNodeStack);
+        N n = new N(config, queryLexer,astNodeStack);
         n.next(FIELD_CONDITION,GROUP_CONDITION);
 
         return astNodeStack.pop();
     }
 
-    public QueryLexerConfig getLexerConfig() {
-        return lexerConfig;
+    public AstBuilderConfig getConfig() {
+        return config;
     }
 
     private static class N implements AstNodeBuilder.Next{
+        AstBuilderConfig config;
         QueryLexer queryLexer;
         Stack<AstNode> astNodeStack;
 
-        public N(QueryLexer queryLexer, Stack<AstNode> astNodeStack) {
+        public N(AstBuilderConfig config, QueryLexer queryLexer, Stack<AstNode> astNodeStack) {
+            this.config = config;
             this.queryLexer = queryLexer;
             this.astNodeStack = astNodeStack;
         }

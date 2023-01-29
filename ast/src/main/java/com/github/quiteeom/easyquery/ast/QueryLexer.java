@@ -21,46 +21,13 @@ public class QueryLexer {
 
     char ch;
 
-    KeyWordTree keyWordTree;
-
-    static KeyWordTree KEY_WORDS = defaultKeyWordTree();
-
-    private static KeyWordTree defaultKeyWordTree(){
-        return new KeyWordTree().add("in",TokenType.IN)
-                .add("not in",TokenType.NOT_IN)
-                .add("contains",TokenType.CONTAINS)
-                .add("startWith",TokenType.START_WITH)
-                .add("endWith",TokenType.END_WITH)
-                .add("between",TokenType.BETWEEN)
-                .add("match",TokenType.MATCH)
-
-                .add("TRUE",TokenType.BOOL_TRUE)
-                .add("FALSE",TokenType.BOOL_FALSE)
-
-                .add("NULL",TokenType.NULL)
-                .add("null",TokenType.NULL)
-
-                .add("and",TokenType.AND)
-                .add("or",TokenType.OR)
-                .add("AND",TokenType.AND)
-                .add("OR",TokenType.OR);
-    }
-
-
-    public QueryLexer(String str) {
-        this.str = str;
-        max = str.length();
-        raw_bc = this.str.toCharArray();
-        bc = this.str.toCharArray();
-        keyWordTree = KEY_WORDS;
-    }
+    KeyWordTree keyWordTree = new KeyWordTree();
 
     public QueryLexer(String str, QueryLexerConfig config) {
         this.str = str;
         max = str.length();
         bc = this.str.toCharArray();
         if (config.getAlias()!=null){
-            keyWordTree = defaultKeyWordTree();
             config.getAlias().forEach((t,ty)->{
                 keyWordTree.add(t,ty);
             });

@@ -11,8 +11,7 @@ public class KeyWordTree {
 
     Map<Character,KeyWordTree> slots = new HashMap<>(1<<8);
 
-    String word = null;
-    TokenType tokenType;
+    KeyWord word = null;
     char ch;
 
     public KeyWordTree() {
@@ -22,8 +21,15 @@ public class KeyWordTree {
         this.ch = ch;
     }
 
+
+    public KeyWordTree add(KeyWord keyWord){
+        add(keyWord,0);
+        return this;
+    }
+
+
     public KeyWordTree add(String keyWord, TokenType tokenType){
-        add(keyWord.toCharArray(),0,tokenType);
+        add(KeyWord.of(keyWord,tokenType));
         return this;
     }
 
@@ -31,26 +37,39 @@ public class KeyWordTree {
         return slots.get(ch);
     }
 
-    private void add(char[] chars,int pos,TokenType tokenType){
-        KeyWordTree slot = slots.get(chars[pos]);
+    private void add(KeyWord keyWord,int pos){
+        if (keyWord==null){
+            return;
+        }
+
+        if (keyWord.isImportant()){
+            throw new IllegalArgumentException("important key word is a leaf");
+        }
+
+        char ch = keyWord.getChars()[pos];
+
+        KeyWordTree slot = slots.get(ch);
         if (slot==null){
-            slot = new KeyWordTree(chars[pos]);
-            slots.put(chars[pos],slot);
+            slot = new KeyWordTree(ch);
+            slots.put(ch,slot);
         }
         pos++;
-        if (pos<chars.length){
-            slot.add(chars,pos,tokenType);
+        if (pos<keyWord.length()){
+            slot.add(keyWord,pos);
         }else {
-            slot.word = new String(chars);
-            slot.tokenType = tokenType;
+            if (slot.word!=null){
+                throw new IllegalArgumentException("duplicate key word"+keyWord);
+            }
+            slot.word = keyWord;
         }
     }
 
-    public String getWord() {
+
+    public KeyWord getWord() {
         return word;
     }
 
     public TokenType getTokenType() {
-        return tokenType;
+        return word==null?null:word.getTokenType();
     }
 }
